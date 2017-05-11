@@ -30,7 +30,6 @@ $(document).ready(function() {
   }
 });
 
-
 Mathz.round = function(number, precision) {
     var factor = Math.pow(10, precision);
     var tempNumber = number * factor;
@@ -64,7 +63,7 @@ var vue = new Vue({
       playerCarbsMax: 100,
       playerName: uniqueName,
       playerIsDead: false,
-      playerBGLValue: 5, // value
+      playerBGLValue: 5, // value in international mmol/L
       playerBGLMAX:30,
       playerBGLDisplayMax:20,
       gameLoopInterval: 6000,
@@ -89,6 +88,8 @@ var vue = new Vue({
       particlesObject: {speed: 0, size: 0, color: ''},
 
     };
+
+
   },
   created: function(){
     this.startGameLoop();
@@ -97,6 +98,9 @@ var vue = new Vue({
     // Naively match carbs and insulin absorption - with a slight bias to carb absorption to allow recovery from lows
     // how many units of insulin are absorbed per cycle
     this.metabolism.insulinAbsorptionRate = parseFloat(this.metabolism.carbsAbsorptionRate) / parseFloat(this.metabolism.carbsPerInsulinUnit) * 0.8;
+    // Convert mmol/L value to US-based mg/dL value
+    this.playerBGLValuemgdl = Mathz.round(this.playerBGLValue * 18);
+
 
   },
   methods: {
